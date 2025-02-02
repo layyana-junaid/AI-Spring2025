@@ -1,52 +1,55 @@
+'''Layyana Junaid 23k-0056 BSAI-4A'''
+'''Making a securtiy agent'''
+ 
 import random
 
-class System:
+class SystemEnvironment:
     def __init__(self):
-        self.components = {chr(65 + i): random.choice(['Vulnerable', 'Safe']) for i in range(9)}
-
-    def display_system_state(self):
-        print("\nCurrent System State:")
-        for component, state in self.components.items():
-            print(f"Component {component}: {state}")
-    
-    def get_component_state(self, component):
-        return self.components.get(component, 'Unknown')
-'''23k-0056 BSAI-4A'''
-'''Lab 1 Task 1'''
-import random
-
-class System :
-    def __init__(self) :
         self.components = []
         self.vulnerabilities = []
-        for component in range(0,9) :
-            self.components.append(random.choice([0,1]))
+        for components in range(0, 9):
+            self.components.append(random.choice([0, 1])) #component can either be safe(0) or vulnerable(1)
     
-    def state(self) :
-        for iter,component in enumerate(self.components) :
-            if not component :
-                self.vulnerabilities.append(f"component {iter}")
-        print(f"{self.vulnerabilities}\nThese components are vulnerable") if 0 in self.components else print("All Components Functional")
+    def print_state(self):
+        self.vulnerabilities = []  #reset vulnerabilities list each time
+        for index, component in enumerate(self.components):
+            if component == 1:  # 1 means vulnerable
+                self.vulnerabilities.append(f"component {index}")
 
-class Agent :
-    def __init__(self, system) :
+        if self.vulnerabilities:
+            print(f"These components are vulnerable:")
+            print(f"{self.vulnerabilities}\n")
+        else:
+            print("No Vulnerability! Every Component is functional!")
+
+
+'''s1 = SystemEnvironment()
+s1.print_state()'''
+
+class SecurityAgent:
+    def __init__(self, system):
         self.system = system
-        self.logs = []
-    
-    def patch(self) :
-        self.system.components = [1 for component in self.system.components]
-        print(f"{self.system.vulnerabilities}\n These components were vulnerable and have been patched")
+        self.loggs = []
+
+    def patching(self):
+        self.system.components = [0 for component in self.system.components]
+        print(f"These components are vulnerable and have been patched!:")
+        print(f"{self.system.vulnerabilities}\n")
 
     def search(self) :
         for component in self.system.components :
-            if not component :
-                self.logs.append("Warning. Component is vulnerable")
+            if component == 1:
+                self.loggs.append("Warning. Component is vulnerable")
             else :
-                self.logs.append("Success!")
-        self.patch()
+                self.loggs.append("Success!")
+        self.patching()
 
-sys = System()
-agent = Agent(sys)
-sys.state()
+sys = SystemEnvironment()
+agent = SecurityAgent(sys)
+
+sys.print_state()
 agent.search()
-sys.state()
+sys.print_state()
+
+        
+    
